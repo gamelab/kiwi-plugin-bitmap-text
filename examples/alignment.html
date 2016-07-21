@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bitmap Text Plugin</title>
+	<script src="../lib/kiwi.js"></script>
+	<script src="../src/bitmap-text-1.2.0.js"></script>
+</head>
+<body>
+
+<script>
+
+	var myState = new Kiwi.State( "myState" );
+
+	myState.preload = function() {
+
+		// Load in the spritesheet that we will use for the bitmap text.
+		this.addSpriteSheet(
+			"adore64",
+			"../assets/bitmapAtlas.png",
+			16, 30 );
+	};
+
+	myState.create = function() {
+
+		// Hello World
+		var left = new Kiwi.Plugins.GameObjects.BitmapText(
+			this,
+			this.textures.adore64,
+			"Hello again. It is good to see you!",
+			0, 100 );
+		left.maxWidth = this.game.stage.width / 2;
+		this.addChild( left );
+
+		//Right aligned text
+		var longer = new Kiwi.Plugins.GameObjects.BitmapText(
+			this,
+			this.textures.adore64,
+			"Well this sentence is really just place holder text. I could have used loren ipsum but where is the fun in that?",
+			this.game.stage.width, 200 );
+		longer.maxWidth = this.game.stage.width / 2;
+		longer.align = Kiwi.Plugins.GameObjects.BitmapText.RIGHT_ALIGN;
+		this.addChild( longer );
+
+
+		//Center
+		var single = new Kiwi.Plugins.GameObjects.BitmapText(
+			this,
+			this.textures.adore64,
+			"Here is a long piece of text.",
+			this.game.stage.width / 2, 10);
+		single.align = Kiwi.Plugins.GameObjects.BitmapText.CENTER_ALIGN;
+		this.addChild( single );
+
+
+		var newCells = { ".": 63, "!": 62, "$":64, "#": 65, " ": 66 };
+		Kiwi.Plugins.GameObjects.BitmapText.remap(
+			[ single, longer, left ], newCells );
+
+	};
+
+
+	var game = new Kiwi.Game(
+		"",
+		"BitmapTest",
+		myState,
+		{ plugins: ["BitmapText"] }
+	);
+
+</script>
+
+</body>
+</html>
